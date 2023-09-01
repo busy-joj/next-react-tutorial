@@ -1,10 +1,16 @@
 'use client'
-import React, { useLayoutEffect, useRef, useState } from 'react'
+
+import React, { useContext, useRef } from 'react'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
+import { ModalContext } from '../ModalProvider'
+import { useRouter } from 'next/navigation'
 
 const userPage = () => {
+    const { show, hide } = useContext(ModalContext)
+    const router = useRouter()
+
     const inputId = useRef(null)
     const inputPw = useRef(null)
     const inputEmail = useRef(null)
@@ -19,26 +25,42 @@ const userPage = () => {
         const emailReg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
         if (idValue === '' || idValue === null) {
-            alert('아이디를 입력하세요!')
+            show({
+                desc: '아이디를 입력하세요',
+                useConfirmButton: true,
+                confirmButton: '확인',
+            })
             inputId.current.focus()
             return false
         }
 
         if (!pwReg.test(pwValue)) {
-            alert(
-                '비밀번호는 8자 이상이어야 하며, 대문자/소문자/특수문자를 모두 포함해야 합니다',
-            )
+            show({
+                desc: '비밀번호는 8자 이상이어야 하며, 대문자/소문자/특수문자를 모두 포함해야 합니다',
+                useConfirmButton: true,
+                confirmButton: '확인',
+            })
             inputPw.current.focus()
             return false
         }
 
         if (!emailReg.test(emailValue)) {
-            alert('이메일을 올바르게 작성하세요 예) abc@abc')
+            show({
+                desc: '이메일을 올바르게 작성하세요 예) abc@abc.ddd',
+                useConfirmButton: true,
+                confirmButton: '확인',
+            })
             inputEmail.current.focus()
             return false
         }
-
-        console.log('회원가입이 정상적으로 처리되었습니다.')
+        show({
+            desc: '회원가입이 정상적으로 처리되었습니다.',
+            useConfirmButton: true,
+            confirmButton: '로그인 페이지로 이동',
+            confirmCallback: () => {
+                router.push('/')
+            },
+        })
     }
     return (
         <div className="container">
@@ -59,25 +81,18 @@ const userPage = () => {
                     fullWidth
                     label="id"
                     inputRef={inputId}
-                    // onChange={(e) => handleValue(e.target.value, inputId)}
                     variant="outlined"
                 />
                 <TextField
                     fullWidth
                     label="pw"
                     inputRef={inputPw}
-                    // onChange={(e) =>
-                    //     checkValue(e.target, e.target.value, inputPw)
-                    // }
                     variant="outlined"
                 />
                 <TextField
                     fullWidth
                     label="Email"
                     inputRef={inputEmail}
-                    // onChange={(e) =>
-                    //     checkValue(e.target, e.target.value, inputEmail)
-                    // }
                     variant="outlined"
                 />
                 <Button fullWidth variant="outlined" onClick={handleCheck}>
