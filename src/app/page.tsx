@@ -5,7 +5,7 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
-import { ModalContext } from './ModalProvider'
+import { ModalContext } from './components/ModalProvider'
 
 import './globals.css'
 import './styles/home.css'
@@ -17,12 +17,15 @@ interface FormValue {
 }
 export default function Home() {
     const { show, hide } = useContext(ModalContext)
+
     const router = useRouter()
+
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm<FormValue>()
+
     const onSubmit: SubmitHandler<FormValue> = (data) => {
         if (data.id == 'helloworld' && data.pw == 'Qwer!234') {
             show({

@@ -1,12 +1,11 @@
 'use client'
-
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 
 import Header from './Header'
 import Footer from './Footer'
-import ModalProvider from './ModalProvider'
+import Providers from '@/app/providers'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -23,13 +22,13 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={inter.className}>
-                <ModalProvider>
+                <Providers>
                     <div className="wrap bg-white">
                         <Header />
                         {children}
                         <Footer />
                     </div>
-                </ModalProvider>
+                </Providers>
             </body>
         </html>
     )
