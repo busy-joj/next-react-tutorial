@@ -10,11 +10,36 @@ import { ModalContext } from './components/ModalProvider'
 import './globals.css'
 import './styles/home.css'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 interface FormValue {
     id?: string
     pw?: string
 }
+
+export const homeCatagories = [
+    { id: 'motel', name: '모텔', icon: './icons/ico_category_01.png' },
+    {
+        id: 'hotel',
+        name: '호텔·리조트',
+        icon: './icons/ico_category_02.png',
+    },
+    {
+        id: 'pension',
+        name: '펜션',
+        icon: './icons/ico_category_03.png',
+    },
+    {
+        id: 'gHouse',
+        name: '게스트하우스',
+        icon: './icons/ico_category_04.png',
+    },
+    {
+        id: 'camping',
+        name: '캠핑·글램핑',
+        icon: './icons/ico_category_05.png',
+    },
+]
 export default function Home() {
     const { show, hide } = useContext(ModalContext)
 
@@ -88,6 +113,25 @@ export default function Home() {
                 )}
                 <Button type="submit">Login</Button>
             </Box>
+
+            <div className="flex justify-center gap-6 mt-[30px]">
+                {homeCatagories.map((obj) => {
+                    return (
+                        <Link
+                            key={obj.id}
+                            href={`/room-page/${obj.id}`}
+                            className="text-center">
+                            <img
+                                src={obj.icon}
+                                width="100"
+                                height="100"
+                                alt=""
+                            />
+                            {obj.name}
+                        </Link>
+                    )
+                })}
+            </div>
         </main>
     )
 }
